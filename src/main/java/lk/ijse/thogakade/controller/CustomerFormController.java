@@ -67,13 +67,13 @@ public class CustomerFormController {
     private void loadAllCustomer() {
         var model = new CustomerModel();
 
-        ObservableList<CustomerTm> tmList = FXCollections.observableArrayList();
+        ObservableList<CustomerTm> obList = FXCollections.observableArrayList();
 
         try {
             List<CustomerDto> dtoList  = model.getAllCustomer();
 
             for(CustomerDto dto : dtoList) {
-                tmList.add(
+                obList.add(
                         new CustomerTm(
                                 dto.getId(),
                                 dto.getName(),
@@ -83,7 +83,7 @@ public class CustomerFormController {
                 );
             }
 
-            tblCustomer.setItems(tmList);
+            tblCustomer.setItems(obList);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
