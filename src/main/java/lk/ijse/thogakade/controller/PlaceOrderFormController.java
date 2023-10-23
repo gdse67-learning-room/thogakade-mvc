@@ -9,22 +9,17 @@ import com.jfoenix.controls.JFXComboBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Cursor;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.thogakade.dto.CustomerDto;
+import lk.ijse.thogakade.dto.ItemDto;
 import lk.ijse.thogakade.model.CustomerModel;
-import lk.ijse.thogakade.model.PlaceOrderModel;
+import lk.ijse.thogakade.model.ItemModel;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -86,22 +81,37 @@ public class PlaceOrderFormController {
     @FXML
     private Label lblNetTotal;
 
-    private PlaceOrderModel pomodel = new PlaceOrderModel();
     private CustomerModel customerModel = new CustomerModel();
+    private ItemModel itemModel = new ItemModel();
 
     public void initialize() {
         setDate();
         loadCustomerIds();
+        loadItemCodes();
+    }
+
+    private void loadItemCodes() {
+        ObservableList<String> obList = FXCollections.observableArrayList();
+        try {
+            List<ItemDto> itemDtos = itemModel.loadAllItems();
+
+            for (ItemDto dto : itemDtos) {
+                obList.add(dto.getCode());
+            }
+            cmbItemCode.setItems(obList);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void loadCustomerIds() {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<String> idList = pomodel.loadCustomerIds();
+            List<CustomerDto> idList = customerModel.getAllCustomer();
 
-            for(String id : idList) {
-                obList.add(id);
+            for (CustomerDto dto : idList) {
+                obList.add(dto.getId());
             }
 
             cmbCustomerId.setItems(obList);
@@ -148,7 +158,16 @@ public class PlaceOrderFormController {
 
     @FXML
     void cmbItemOnAction(ActionEvent event) {
+        String code = cmbItemCode.getValue();
 
+        try {
+            ItemDto dto = itemModel.searchItem(code);
+            lblDescription.setText(dto.getDescription());
+            lblUnitPrice.setText(String.valueOf(dto.getUnitPrice()));
+            lblQtyOnHand.setText(String.valueOf(dto.getQtyOnHand()));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML
