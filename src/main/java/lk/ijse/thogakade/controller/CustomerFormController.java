@@ -5,19 +5,24 @@ package lk.ijse.thogakade.controller;
     @created 10/23/23 - 10:01 AM   
 */
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import lk.ijse.thogakade.db.DbConnection;
 import lk.ijse.thogakade.dto.CustomerDto;
+import lk.ijse.thogakade.dto.tm.CustomerTm;
 import lk.ijse.thogakade.model.CustomerModel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 
 public class CustomerFormController {
     @FXML
@@ -45,14 +50,43 @@ public class CustomerFormController {
     private TableColumn<?, ?> colTel;
 
     @FXML
-    private TableView<?> tblCustomer;
+    private TableView<CustomerTm> tblCustomer;
 
     public void initialize() {
-//        loadAllCustomer();
+        setCellValueFactory();
+        loadAllCustomer();
+    }
+
+    private void setCellValueFactory() {
+        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
+        colTel.setCellValueFactory(new PropertyValueFactory<>("tel"));
     }
 
     private void loadAllCustomer() {
+        var model = new CustomerModel();
 
+        ObservableList<CustomerTm> tmList = FXCollections.observableArrayList();
+
+        try {
+            List<CustomerDto> dtoList  = model.getAllCustomer();
+
+            for(CustomerDto dto : dtoList) {
+                tmList.add(
+                        new CustomerTm(
+                                dto.getId(),
+                                dto.getName(),
+                                dto.getAddress(),
+                                dto.getTel()
+                        )
+                );
+            }
+
+            tblCustomer.setItems(tmList);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML
