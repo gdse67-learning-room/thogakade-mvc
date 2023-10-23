@@ -86,4 +86,17 @@ public class CustomerModel {
 
         return pstm.executeUpdate() > 0;
     }
+
+    public boolean updateCustomer(CustomerDto dto) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "UPDATE customer SET name = ?, address = ?, tel = ? WHERE id = ?";
+        PreparedStatement pstm = connection.prepareStatement(sql);
+        pstm.setString(1, dto.getName());
+        pstm.setString(2, dto.getAddress());
+        pstm.setString(3, dto.getTel());
+        pstm.setString(4, dto.getId());
+
+        return pstm.executeUpdate() > 0;
+    }
 }
