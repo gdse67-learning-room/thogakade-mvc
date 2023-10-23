@@ -83,7 +83,7 @@ public class ItemFormController {
 //        var model = new ItemModel();
         try {
             boolean isSaved = itemModel.saveItem(dto);
-            if(isSaved) {
+            if (isSaved) {
                 new Alert(Alert.AlertType.CONFIRMATION, "item saved!").show();
             }
         } catch (SQLException e) {
@@ -139,7 +139,7 @@ public class ItemFormController {
 //        var model = new ItemModel();
         try {
             boolean isUpdated = itemModel.updateItem(new ItemDto(code, description, unitPrice, qtyOnHand));
-            if(isUpdated) {
+            if (isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION, "item updated").show();
             }
         } catch (SQLException e) {
@@ -149,7 +149,7 @@ public class ItemFormController {
 
     @FXML
     void btnClearOnAction(ActionEvent event) {
-clearFields()
+        clearFields();
     }
 
     @FXML
@@ -158,7 +158,7 @@ clearFields()
 
         try {
             ItemDto dto = itemModel.searchItem(code);
-            if(dto != null) {
+            if (dto != null) {
                 setFields(dto);
             } else {
                 new Alert(Alert.AlertType.INFORMATION, "item not found!").show();
