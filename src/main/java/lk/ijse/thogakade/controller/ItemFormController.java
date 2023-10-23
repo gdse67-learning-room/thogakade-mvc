@@ -61,6 +61,21 @@ public class ItemFormController {
     public void initialize() {
         setCellValueFactory();
         loadAllItems();
+        tableListener();
+    }
+
+    private void tableListener() {
+        tblItem.getSelectionModel().selectedItemProperty().addListener((observable, oldValued, newValue) -> {
+//            System.out.println(newValue);
+            setData(newValue);
+        });
+    }
+
+    private void setData(ItemTm row) {
+        txtCode.setText(row.getCode());
+        txtDescription.setText(row.getDescription());
+        txtUnitPrice.setText(String.valueOf(row.getUnitPrice()));
+        txtQtyOnHand.setText(String.valueOf(row.getQtyOnHand()));
     }
 
     private void setCellValueFactory() {
