@@ -58,6 +58,8 @@ public class CustomerFormController {
     @FXML
     private TableView<CustomerTm> tblCustomer;
 
+    private CustomerModel cusModel = new CustomerModel();
+
     public void initialize() {
         setCellValueFactory();
         loadAllCustomer();
@@ -105,8 +107,7 @@ public class CustomerFormController {
         var dto = new CustomerDto(id, name, address, tel);
 
         try {
-            var model = new CustomerModel();
-            boolean isSaved = model.saveCustomer(dto);
+            boolean isSaved = cusModel.saveCustomer(dto);
 
             if (isSaved) {
                 new Alert(Alert.AlertType.CONFIRMATION, "customer saved!").show();
@@ -118,17 +119,12 @@ public class CustomerFormController {
     }
 
     @FXML
-    void btnClearOnAction(ActionEvent event) {
-        clearFields();
-    }
-
-    @FXML
     void btnDeleteOnAction(ActionEvent event) {
         String id = txtId.getText();
 
-        var model = new CustomerModel();
+//        var model = new CustomerModel();
         try {
-            boolean isDeleted = model.deleteCustomer(id);
+            boolean isDeleted = cusModel.deleteCustomer(id);
             if(isDeleted) {
                 new Alert(Alert.AlertType.CONFIRMATION, "customer deleted!").show();
             } else {
@@ -149,9 +145,9 @@ public class CustomerFormController {
 
         var dto = new CustomerDto(id, name, address, tel);
 
-        var model = new CustomerModel();
+//        var model = new CustomerModel();
         try {
-            boolean isUpdated = model.updateCustomer(dto);
+            boolean isUpdated = cusModel.updateCustomer(dto);
             if(isUpdated) {
                 new Alert(Alert.AlertType.CONFIRMATION, "customer updated!").show();
                 clearFields();
@@ -165,9 +161,9 @@ public class CustomerFormController {
     void txtSearchOnAction(ActionEvent event) {
         String id = txtId.getText();
 
-        var model = new CustomerModel();
+//        var model = new CustomerModel();
         try {
-            CustomerDto customerDto = model.searchCustomer(id);
+            CustomerDto customerDto = cusModel.searchCustomer(id);
 //            System.out.println(customerDto);
             if (customerDto != null) {
                 txtId.setText(customerDto.getId());
@@ -180,6 +176,11 @@ public class CustomerFormController {
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
+    }
+
+    @FXML
+    void btnClearOnAction(ActionEvent event) {
+        clearFields();
     }
 
     private void clearFields() {
