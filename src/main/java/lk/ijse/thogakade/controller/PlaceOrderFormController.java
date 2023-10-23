@@ -22,9 +22,14 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.thogakade.dto.CustomerDto;
+import lk.ijse.thogakade.model.CustomerModel;
+import lk.ijse.thogakade.model.PlaceOrderModel;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.List;
 
 public class PlaceOrderFormController {
     @FXML
@@ -81,8 +86,28 @@ public class PlaceOrderFormController {
     @FXML
     private Label lblNetTotal;
 
+    private PlaceOrderModel pomodel = new PlaceOrderModel();
+    private CustomerModel customerModel = new CustomerModel();
+
     public void initialize() {
         setDate();
+        loadCustomerIds();
+    }
+
+    private void loadCustomerIds() {
+        ObservableList<String> obList = FXCollections.observableArrayList();
+
+        try {
+            List<String> idList = pomodel.loadCustomerIds();
+
+            for(String id : idList) {
+                obList.add(id);
+            }
+
+            cmbCustomerId.setItems(obList);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void setDate() {
@@ -128,6 +153,14 @@ public class PlaceOrderFormController {
 
     @FXML
     void cmbCustomerOnAction(ActionEvent event) {
+        String id = cmbCustomerId.getValue();
+//        CustomerModel customerModel = new CustomerModel();
+        try {
+            CustomerDto customerDto = customerModel.searchCustomer(id);
+            lblCustomerName.setText(customerDto.getName());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML
