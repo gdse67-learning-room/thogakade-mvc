@@ -85,6 +85,7 @@ public class ItemFormController {
             boolean isSaved = itemModel.saveItem(dto);
             if (isSaved) {
                 new Alert(Alert.AlertType.CONFIRMATION, "item saved!").show();
+                clearFields();
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
