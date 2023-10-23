@@ -35,7 +35,7 @@
                 </ImageView>
             </graphic>
         </JFXButton>
-        <JFXButton buttonType="RAISED" contentDisplay="RIGHT" layoutX="341.0" layoutY="243.0" prefHeight="40.0" prefWidth="111.0" style="-fx-background-color: #e67e22;" text="Update" textFill="WHITE">
+        <JFXButton buttonType="RAISED" contentDisplay="RIGHT" layoutX="341.0" layoutY="243.0" onAction="#btnUpdateOnAction" prefHeight="40.0" prefWidth="111.0" style="-fx-background-color: #e67e22;" text="Update" textFill="WHITE">
             <font>
                 <Font name="System Bold" size="15.0" />
             </font>
@@ -50,7 +50,7 @@
                 </ImageView>
             </graphic>
         </JFXButton>
-        <JFXButton buttonType="RAISED" contentDisplay="RIGHT" layoutX="224.0" layoutY="243.0" prefHeight="40.0" prefWidth="105.0" style="-fx-background-color: #e74c3c;" text="Delete" textFill="WHITE">
+        <JFXButton buttonType="RAISED" contentDisplay="RIGHT" layoutX="224.0" layoutY="243.0" onAction="#btnDeleteOnAction" prefHeight="40.0" prefWidth="105.0" style="-fx-background-color: #e74c3c;" text="Delete" textFill="WHITE">
             <font>
                 <Font name="System Bold" size="15.0" />
             </font>
@@ -65,7 +65,7 @@
                 </ImageView>
             </graphic>
         </JFXButton>
-        <JFXButton buttonType="RAISED" contentDisplay="RIGHT" layoutX="107.0" layoutY="243.0" prefHeight="40.0" prefWidth="105.0" style="-fx-background-color: #7f8c8d;" text="Clear" textFill="WHITE">
+        <JFXButton buttonType="RAISED" contentDisplay="RIGHT" layoutX="107.0" layoutY="243.0" onAction="#btnClearOnAction" prefHeight="40.0" prefWidth="105.0" style="-fx-background-color: #7f8c8d;" text="Clear" textFill="WHITE">
             <font>
                 <Font name="System Bold" size="15.0" />
             </font>

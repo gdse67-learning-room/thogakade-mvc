@@ -76,9 +76,9 @@ public class CustomerFormController {
         ObservableList<CustomerTm> obList = FXCollections.observableArrayList();
 
         try {
-            List<CustomerDto> dtoList  = model.getAllCustomer();
+            List<CustomerDto> dtoList = model.getAllCustomer();
 
-            for(CustomerDto dto : dtoList) {
+            for (CustomerDto dto : dtoList) {
                 obList.add(
                         new CustomerTm(
                                 dto.getId(),
@@ -108,9 +108,59 @@ public class CustomerFormController {
             var model = new CustomerModel();
             boolean isSaved = model.saveCustomer(dto);
 
-            if(isSaved) {
+            if (isSaved) {
                 new Alert(Alert.AlertType.CONFIRMATION, "customer saved!").show();
                 clearFields();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
+    }
+
+
+    @FXML
+    void btnClearOnAction(ActionEvent event) {
+        clearFields();
+    }
+
+    @FXML
+    void btnDeleteOnAction(ActionEvent event) {
+        String id = txtId.getText();
+
+        var model = new CustomerModel();
+        try {
+            boolean isDeleted = model.deleteCustomer(id);
+            if(isDeleted) {
+                new Alert(Alert.AlertType.CONFIRMATION, "customer deleted!").show();
+            } else {
+                new Alert(Alert.AlertType.CONFIRMATION, "customer not deleted!").show();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
+
+    }
+
+    @FXML
+    void btnUpdateOnAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void txtSearchOnAction(ActionEvent event) {
+        String id = txtId.getText();
+
+        var model = new CustomerModel();
+        try {
+            CustomerDto customerDto = model.searchCustomer(id);
+//            System.out.println(customerDto);
+            if (customerDto != null) {
+                txtId.setText(customerDto.getId());
+                txtName.setText(customerDto.getName());
+                txtAddress.setText(customerDto.getAddress());
+                txtTel.setText(customerDto.getTel());
+            } else {
+                new Alert(Alert.AlertType.INFORMATION, "customer not found").show();
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
@@ -122,27 +172,6 @@ public class CustomerFormController {
         txtName.setText("");
         txtAddress.setText("");
         txtTel.setText("");
-    }
-
-    @FXML
-    void txtSearchOnAction(ActionEvent event) {
-        String id = txtId.getText();
-
-        var model = new CustomerModel();
-        try {
-            CustomerDto customerDto = model.searchCustomer(id);
-//            System.out.println(customerDto);
-            if(customerDto != null) {
-                txtId.setText(customerDto.getId());
-                txtName.setText(customerDto.getName());
-                txtAddress.setText(customerDto.getAddress());
-                txtTel.setText(customerDto.getTel());
-            } else {
-                new Alert(Alert.AlertType.INFORMATION, "customer not found").show();
-            }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
-        }
     }
 
     public void btnBackOnAction(ActionEvent actionEvent) throws IOException {
