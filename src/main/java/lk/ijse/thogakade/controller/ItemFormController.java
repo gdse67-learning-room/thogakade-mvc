@@ -149,7 +149,7 @@ public class ItemFormController {
 
     @FXML
     void btnClearOnAction(ActionEvent event) {
-
+clearFields()
     }
 
     @FXML
@@ -169,14 +169,17 @@ public class ItemFormController {
 
     }
 
+    private void clearFields() {
+        txtCode.setText("");
+        txtDescription.setText("");
+        txtUnitPrice.setText("");
+        txtQtyOnHand.setText("");
+    }
+
     private void setFields(ItemDto dto) {
         txtCode.setText(dto.getCode());
         txtDescription.setText(dto.getDescription());
         txtUnitPrice.setText(String.valueOf(dto.getUnitPrice()));
         txtQtyOnHand.setText(String.valueOf(dto.getQtyOnHand()));
-    }
-
-    public void btnGetAllOnAction(ActionEvent actionEvent) {
-
     }
 }
