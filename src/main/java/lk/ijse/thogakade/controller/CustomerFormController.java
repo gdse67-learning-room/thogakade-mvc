@@ -89,6 +89,19 @@ public class CustomerFormController {
         String id = txtId.getText();
 
         var model = new CustomerModel();
-//        model.searchCustomer(id);
+        try {
+            CustomerDto customerDto = model.searchCustomer(id);
+//            System.out.println(customerDto);
+            if(customerDto != null) {
+                txtId.setText(customerDto.getId());
+                txtName.setText(customerDto.getName());
+                txtAddress.setText(customerDto.getAddress());
+                txtTel.setText(customerDto.getTel());
+            } else {
+                new Alert(Alert.AlertType.INFORMATION, "customer not found").show();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
     }
 }
