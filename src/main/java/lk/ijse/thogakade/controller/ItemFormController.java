@@ -155,6 +155,25 @@ public class ItemFormController {
     @FXML
     void codeSearchOnAction(ActionEvent event) {
         String code = txtCode.getText();
+
+        try {
+            ItemDto dto = itemModel.searchItem(code);
+            if(dto != null) {
+                setFields(dto);
+            } else {
+                new Alert(Alert.AlertType.INFORMATION, "item not found!").show();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
+
+    }
+
+    private void setFields(ItemDto dto) {
+        txtCode.setText(dto.getCode());
+        txtDescription.setText(dto.getDescription());
+        txtUnitPrice.setText(String.valueOf(dto.getUnitPrice()));
+        txtQtyOnHand.setText(String.valueOf(dto.getQtyOnHand()));
     }
 
     public void btnGetAllOnAction(ActionEvent actionEvent) {
