@@ -39,7 +39,7 @@ public class ItemModel {
         List<ItemDto> itemList = new ArrayList<>();
 
         ResultSet resultSet = pstm.executeQuery();
-        while(resultSet.next()) {
+        while (resultSet.next()) {
             itemList.add(new ItemDto(
                     resultSet.getString(1),
                     resultSet.getString(2),
@@ -49,5 +49,19 @@ public class ItemModel {
         }
 
         return itemList;
+    }
+
+    public boolean updateItem(ItemDto itemDto) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "UPDATE item SET description = ?, unit_price = ?, qty_on_hand = ? WHERE code = ?";
+        PreparedStatement pstm = connection.prepareStatement(sql);
+
+        pstm.setString(1, itemDto.getDescription());
+        pstm.setDouble(2, itemDto.getUnitPrice());
+        pstm.setInt(3, itemDto.getQtyOnHand());
+        pstm.setString(4, itemDto.getCode());
+
+        return pstm.executeUpdate() > 0;
     }
 }

@@ -56,6 +56,8 @@ public class ItemFormController {
     @FXML
     private TextField txtUnitPrice;
 
+    private ItemModel itemModel = new ItemModel();
+
     public void initialize() {
         setCellValueFactory();
         loadAllItems();
@@ -78,9 +80,9 @@ public class ItemFormController {
 
         var dto = new ItemDto(code, description, unitPrice, qtyOnHand);
 
-        var model = new ItemModel();
+//        var model = new ItemModel();
         try {
-            boolean isSaved = model.saveItem(dto);
+            boolean isSaved = itemModel.saveItem(dto);
             if(isSaved) {
                 new Alert(Alert.AlertType.CONFIRMATION, "item saved!").show();
             }
@@ -90,10 +92,10 @@ public class ItemFormController {
     }
 
     private void loadAllItems() {
-        var model = new ItemModel();
+//        var model = new ItemModel();
         ObservableList<ItemTm> obList = FXCollections.observableArrayList();
         try {
-            List<ItemDto> dtoList = model.loadAllItems();
+            List<ItemDto> dtoList = itemModel.loadAllItems();
 
             for (ItemDto dto : dtoList) {
                 obList.add(new ItemTm(
@@ -133,6 +135,16 @@ public class ItemFormController {
         String description = txtDescription.getText();
         double unitPrice = Double.parseDouble(txtUnitPrice.getText());
         int qtyOnHand = Integer.parseInt(txtQtyOnHand.getText());
+
+//        var model = new ItemModel();
+        try {
+            boolean isUpdated = itemModel.updateItem(new ItemDto(code, description, unitPrice, qtyOnHand));
+            if(isUpdated) {
+                new Alert(Alert.AlertType.CONFIRMATION, "item updated").show();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
     }
 
     @FXML
