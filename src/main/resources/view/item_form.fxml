@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" prefHeight="545.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.thogakade.controller.ItemFormController">
+<AnchorPane fx:id="root" prefHeight="545.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.thogakade.controller.ItemFormController">
     <children>
         <Label layoutX="188.0" layoutY="14.0" text="Item Manage">
             <font>
@@ -29,26 +29,21 @@
                 <Cursor fx:constant="HAND" />
             </cursor>
         </JFXButton>
-        <JFXButton buttonType="RAISED" layoutX="365.0" layoutY="228.0" onAction="#btnDeleteOnAction" style="-fx-background-color: lightpink;" text="Delete">
-            <cursor>
-                <Cursor fx:constant="HAND" />
-            </cursor>
-        </JFXButton>
         <JFXButton buttonType="RAISED" layoutX="439.0" layoutY="228.0" onAction="#btnUpdateOnAction" style="-fx-background-color: lightgreen;" text="Update">
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>
         </JFXButton>
-        <JFXButton buttonType="RAISED" layoutX="292.0" layoutY="229.0" onAction="#btnGetAllOnAction" style="-fx-background-color: yellow;" text="Get All">
+        <JFXButton buttonType="RAISED" layoutX="369.0" layoutY="228.0" onAction="#btnGetAllOnAction" style="-fx-background-color: yellow;" text="Clear">
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>
         </JFXButton>
-        <TableView layoutX="14.0" layoutY="297.0" prefHeight="200.0" prefWidth="568.0">
+        <TableView fx:id="tblItem" layoutX="14.0" layoutY="297.0" prefHeight="200.0" prefWidth="568.0">
             <columns>
                 <TableColumn fx:id="colCode" prefWidth="75.0" text="Code" />
                 <TableColumn fx:id="colDescription" prefWidth="229.0" text="Description" />
-                <TableColumn fx:id="colQty" prefWidth="85.0" text="Qty" />
+                <TableColumn fx:id="colUnitPrice" prefWidth="85.0" text="Unit Price" />
                 <TableColumn fx:id="colQtyOnHand" prefWidth="105.0" text="Qty On Hand" />
                 <TableColumn fx:id="colAction" prefWidth="73.0" text="Action" />
             </columns>
