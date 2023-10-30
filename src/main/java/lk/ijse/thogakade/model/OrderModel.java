@@ -6,11 +6,10 @@ package lk.ijse.thogakade.model;
 */
 
 import lk.ijse.thogakade.db.DbConnection;
+import lk.ijse.thogakade.dto.PlaceOrderDto;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
 
 public class OrderModel {
     public String generateNextOrderId() throws SQLException {
@@ -36,5 +35,17 @@ public class OrderModel {
         } else {
             return "O001";
         }
+    }
+
+    public boolean saveOrder(String orderId, String customerId, LocalDate date) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "INSERT INTO orders VALUES(?, ?, ?)";
+        PreparedStatement pstm = connection.prepareStatement(sql);
+        pstm.setString(1, orderId);
+        pstm.setString(2, customerId);
+        pstm.setDate(3, Date.valueOf(date));
+
+        return pstm.executeUpdate() > 0;
     }
 }

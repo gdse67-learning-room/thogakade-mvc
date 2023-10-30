@@ -6,8 +6,8 @@ package lk.ijse.thogakade.model;
 */
 
 import lk.ijse.thogakade.db.DbConnection;
-import lk.ijse.thogakade.dto.CustomerDto;
 import lk.ijse.thogakade.dto.ItemDto;
+import lk.ijse.thogakade.dto.tm.CartTm;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -51,20 +51,6 @@ public class ItemModel {
         return itemList;
     }
 
-    public boolean updateItem(ItemDto itemDto) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "UPDATE item SET description = ?, unit_price = ?, qty_on_hand = ? WHERE code = ?";
-        PreparedStatement pstm = connection.prepareStatement(sql);
-
-        pstm.setString(1, itemDto.getDescription());
-        pstm.setDouble(2, itemDto.getUnitPrice());
-        pstm.setInt(3, itemDto.getQtyOnHand());
-        pstm.setString(4, itemDto.getCode());
-
-        return pstm.executeUpdate() > 0;
-    }
-
     public ItemDto searchItem(String code) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
         String sql = "SELECT * FROM item WHERE code = ?";
@@ -85,5 +71,40 @@ public class ItemModel {
             );
         }
         return dto;
+    }
+
+    public boolean updateItem(ItemDto itemDto) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "UPDATE item SET description = ?, unit_price = ?, qty_on_hand = ? WHERE code = ?";
+        PreparedStatement pstm = connection.prepareStatement(sql);
+
+        pstm.setString(1, itemDto.getDescription());
+        pstm.setDouble(2, itemDto.getUnitPrice());
+        pstm.setInt(3, itemDto.getQtyOnHand());
+        pstm.setString(4, itemDto.getCode());
+
+        return pstm.executeUpdate() > 0;
+    }
+
+    public boolean updateItem(List<CartTm> cartTmList) throws SQLException {
+        for(CartTm tm : cartTmList) {
+            if(!updateQty(tm.getCode(), tm.getQty())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean updateQty(String code, int qty) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "UPDATE item SET qty_on_hand = qty_on_hand - ? WHERE code = ?";
+        PreparedStatement pstm = connection.prepareStatement(sql);
+
+        pstm.setInt(1, qty);
+        pstm.setString(2, code);
+
+        return pstm.executeUpdate() > 0; //false
     }
 }
