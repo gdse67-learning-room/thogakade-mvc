@@ -163,7 +163,6 @@ public class PlaceOrderFormController {
         Button btn = new Button("Remove");
         btn.setCursor(Cursor.HAND);
 
-
         if (!obList.isEmpty()) {
             for (int i = 0; i < tblOrderCart.getItems().size(); i++) {
                 if (colItemCode.getCellData(i).equals(code)) {
@@ -174,6 +173,7 @@ public class PlaceOrderFormController {
                     obList.get(i).setQty(qty);
                     obList.get(i).setTot(tot);
 
+                    calculateTotal();
                     tblOrderCart.refresh();
                     return;
                 }
@@ -184,8 +184,17 @@ public class PlaceOrderFormController {
         obList.add(cartTm);
 
         tblOrderCart.setItems(obList);
+        calculateTotal();
         txtQty.clear();
 
+    }
+
+    private void calculateTotal() {
+        double total = 0;
+        for (int i = 0; i < tblOrderCart.getItems().size(); i++) {
+            total += (double) colTotal.getCellData(i);
+        }
+        lblNetTotal.setText(String.valueOf(total));
     }
 
     @FXML
