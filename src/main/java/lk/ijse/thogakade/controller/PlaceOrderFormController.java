@@ -251,11 +251,12 @@ public class PlaceOrderFormController {
         
         List<CartTm> cartTmList = new ArrayList<>();
         for (int i = 0; i < tblOrderCart.getItems().size(); i++) {
-            CartTm cartTm = tblOrderCart.getSelectionModel().getSelectedItem();
+            CartTm cartTm = obList.get(i);
 
             cartTmList.add(cartTm);
         }
 
+        System.out.println("Place order form controller: " + cartTmList);
         var placeOrderDto = new PlaceOrderDto(orderId, date, customerId, cartTmList);
         try {
             boolean isSuccess = placeOrderModel.placeOrder(placeOrderDto);
