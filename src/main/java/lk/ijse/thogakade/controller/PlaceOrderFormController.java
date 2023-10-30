@@ -94,13 +94,12 @@ public class PlaceOrderFormController {
     }
 
     private void generateNextOrderId() {
-        String orderId = null;
         try {
-            orderId = orderModel.generateNextOrderId();
+            String orderId = orderModel.generateNextOrderId();
+            lblOrderId.setText(orderId);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
-        lblOrderId.setText(orderId);
     }
 
     private void loadItemCodes() {
