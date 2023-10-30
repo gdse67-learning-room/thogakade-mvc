@@ -11,13 +11,16 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.thogakade.dto.CustomerDto;
 import lk.ijse.thogakade.dto.ItemDto;
+import lk.ijse.thogakade.dto.tm.CartTm;
 import lk.ijse.thogakade.model.CustomerModel;
 import lk.ijse.thogakade.model.ItemModel;
 import lk.ijse.thogakade.model.OrderModel;
@@ -74,7 +77,7 @@ public class PlaceOrderFormController {
     private AnchorPane pane;
 
     @FXML
-    private TableView<?> tblOrderCart;
+    private TableView<CartTm> tblOrderCart;
 
     @FXML
     private TextField txtQty;
@@ -85,12 +88,23 @@ public class PlaceOrderFormController {
     private CustomerModel customerModel = new CustomerModel();
     private ItemModel itemModel = new ItemModel();
     private OrderModel orderModel = new OrderModel();
+    private ObservableList<CartTm> obList = FXCollections.observableArrayList();
 
     public void initialize() {
+        setCellValueFactory();
         generateNextOrderId();
         setDate();
         loadCustomerIds();
         loadItemCodes();
+    }
+
+    private void setCellValueFactory() {
+        colItemCode.setCellValueFactory(new PropertyValueFactory<>("code"));
+        colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        colQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
+        colUnitPrice.setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
+        colTotal.setCellValueFactory(new PropertyValueFactory<>("tot"));
+        colAction.setCellValueFactory(new PropertyValueFactory<>("btn"));
     }
 
     private void generateNextOrderId() {
@@ -139,6 +153,19 @@ public class PlaceOrderFormController {
 
     @FXML
     void btnAddToCartOnAction(ActionEvent event) {
+        String code = cmbItemCode.getValue();
+        String description = lblDescription.getText();
+        int qty = Integer.parseInt(txtQty.getText());
+        double unitPrice = Double.parseDouble(lblUnitPrice.getText());
+        double tot = unitPrice * qty;
+        Button btn = new Button("Remove");
+        btn.setCursor(Cursor.HAND);
+
+        var cartTm = new CartTm(code, description, qty, unitPrice, tot, btn);
+
+        obList.add(cartTm);
+
+        tblOrderCart.setItems(obList);
     }
 
     @FXML
@@ -189,6 +216,7 @@ public class PlaceOrderFormController {
         try {
             CustomerDto customerDto = customerModel.searchCustomer(id);
             lblCustomerName.setText(customerDto.getName());
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
