@@ -22,7 +22,7 @@ create table item(
   code varchar(35) primary key ,
   description text not null ,
   unit_price double not null,
-  qty_on_hand not null
+  qty_on_hand int not null
 );
 
 create table order_detail(
