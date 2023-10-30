@@ -20,6 +20,7 @@ import lk.ijse.thogakade.dto.CustomerDto;
 import lk.ijse.thogakade.dto.ItemDto;
 import lk.ijse.thogakade.model.CustomerModel;
 import lk.ijse.thogakade.model.ItemModel;
+import lk.ijse.thogakade.model.OrderModel;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -83,11 +84,23 @@ public class PlaceOrderFormController {
 
     private CustomerModel customerModel = new CustomerModel();
     private ItemModel itemModel = new ItemModel();
+    private OrderModel orderModel = new OrderModel();
 
     public void initialize() {
+        generateNextOrderId();
         setDate();
         loadCustomerIds();
         loadItemCodes();
+    }
+
+    private void generateNextOrderId() {
+        String orderId = null;
+        try {
+            orderId = orderModel.generateNextOrderId();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        lblOrderId.setText(orderId);
     }
 
     private void loadItemCodes() {
