@@ -1,5 +1,5 @@
 drop database if exists kade;
-create table if not exists kade;
+create database if not exists kade;
 
 use kade;
 
