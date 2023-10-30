@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public class PlaceOrderFormController {
     private JFXButton btnAddToCart;
@@ -161,7 +162,10 @@ public class PlaceOrderFormController {
         double unitPrice = Double.parseDouble(lblUnitPrice.getText());
         double tot = unitPrice * qty;
         Button btn = new Button("Remove");
+
+        setRemoveBtnAction(btn);
         btn.setCursor(Cursor.HAND);
+
 
         if (!obList.isEmpty()) {
             for (int i = 0; i < tblOrderCart.getItems().size(); i++) {
@@ -186,7 +190,23 @@ public class PlaceOrderFormController {
         tblOrderCart.setItems(obList);
         calculateTotal();
         txtQty.clear();
+    }
 
+    private void setRemoveBtnAction(Button btn) {
+        btn.setOnAction((e) -> {
+            ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+            ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+            Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to remove?", yes, no).showAndWait();
+
+            if (type.orElse(no) == yes) {
+                int focusedIndex = tblOrderCart.getSelectionModel().getSelectedIndex();
+
+                obList.remove(focusedIndex);
+                tblOrderCart.refresh();
+                calculateTotal();
+            }
+        });
     }
 
     private void calculateTotal() {
