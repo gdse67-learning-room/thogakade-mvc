@@ -163,12 +163,29 @@ public class PlaceOrderFormController {
         Button btn = new Button("Remove");
         btn.setCursor(Cursor.HAND);
 
+
+        if (!obList.isEmpty()) {
+            for (int i = 0; i < tblOrderCart.getItems().size(); i++) {
+                if (colItemCode.getCellData(i).equals(code)) {
+                    int col_qty = (int) colQty.getCellData(i);
+                    qty += col_qty;
+                    tot = unitPrice * qty;
+
+                    obList.get(i).setQty(qty);
+                    obList.get(i).setTot(tot);
+
+                    tblOrderCart.refresh();
+                    return;
+                }
+            }
+        }
         var cartTm = new CartTm(code, description, qty, unitPrice, tot, btn);
 
         obList.add(cartTm);
 
         tblOrderCart.setItems(obList);
         txtQty.clear();
+
     }
 
     @FXML
