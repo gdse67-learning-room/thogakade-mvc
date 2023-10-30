@@ -107,7 +107,7 @@
                 <TableColumn fx:id="colAction" prefWidth="115.0" text="Action" />
             </columns>
         </TableView>
-        <JFXButton buttonType="RAISED" layoutX="641.0" layoutY="247.0" onAction="#btnAddToCartOnAction" prefHeight="33.0" prefWidth="120.0" style="-fx-background-color: #3498db;" text="Add to cart" textFill="WHITE">
+        <JFXButton fx:id="btnAddToCart" buttonType="RAISED" layoutX="641.0" layoutY="247.0" onAction="#btnAddToCartOnAction" prefHeight="33.0" prefWidth="120.0" style="-fx-background-color: #3498db;" text="Add to cart" textFill="WHITE">
             <graphic>
                 <ImageView fitHeight="16.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                     <image>

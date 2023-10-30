@@ -5,6 +5,7 @@ package lk.ijse.thogakade.controller;
     @created 10/23/23 - 12:26 PM   
 */
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,6 +32,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class PlaceOrderFormController {
+    private JFXButton btnAddToCart;
     @FXML
     private JFXComboBox<String> cmbCustomerId;
 
@@ -166,6 +168,7 @@ public class PlaceOrderFormController {
         obList.add(cartTm);
 
         tblOrderCart.setItems(obList);
+        txtQty.clear();
     }
 
     @FXML
@@ -199,6 +202,7 @@ public class PlaceOrderFormController {
     void cmbItemOnAction(ActionEvent event) {
         String code = cmbItemCode.getValue();
 
+        txtQty.requestFocus();
         try {
             ItemDto dto = itemModel.searchItem(code);
             lblDescription.setText(dto.getDescription());
@@ -224,5 +228,6 @@ public class PlaceOrderFormController {
 
     @FXML
     void txtQtyOnAction(ActionEvent event) {
+        btnAddToCartOnAction(event);
     }
 }
