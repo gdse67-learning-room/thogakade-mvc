@@ -32,19 +32,17 @@ public class PlaceOrderModel {
             boolean isOrderSaved = orderModel.saveOrder(orderId, customerId, date);
             if (isOrderSaved) {
                 boolean isUpdated = itemModel.updateItem(placeOrderDto.getCartTmList());
-                if(isUpdated) {
+                if (isUpdated) {
                     boolean isOrderDetailSaved = orderDetailModel.saveOrderDetails(placeOrderDto.getOrderId(), placeOrderDto.getCartTmList());
                     if (isOrderDetailSaved) {
                         connection.commit();
                     }
                 }
             }
-        } catch (SQLException e) {
             connection.rollback();
         } finally {
             connection.setAutoCommit(true);
         }
-
         return true;
     }
 }

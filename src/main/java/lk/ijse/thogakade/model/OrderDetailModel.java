@@ -6,7 +6,6 @@ package lk.ijse.thogakade.model;
 */
 
 import lk.ijse.thogakade.db.DbConnection;
-import lk.ijse.thogakade.dto.PlaceOrderDto;
 import lk.ijse.thogakade.dto.tm.CartTm;
 
 import java.sql.Connection;
